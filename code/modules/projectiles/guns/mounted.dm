@@ -2,7 +2,7 @@
 /obj/item/storage/box/hsg_102
 	name = "\improper HSG-102 crate"
 	desc = "A large and rusted metal case. It has not seen much use. Written in faded letters on its top, it says, \"This is a HSG-102 heavy smartgun\". There are many other warning labels atop that are too faded to read."
-	icon = 'icons/obj/items/ammo.dmi'
+	icon = 'icons/obj/items/ammo/machinegun.dmi'
 	icon_state = "hsg102_crate"
 	w_class = WEIGHT_CLASS_HUGE
 
@@ -312,9 +312,9 @@
 	gun_features_flags = GUN_AMMO_COUNTER|GUN_DEPLOYED_FIRE_ONLY|GUN_WIELDED_FIRING_ONLY|GUN_SMOKE_PARTICLES
 	gun_firemode_list = list(GUN_FIREMODE_SEMIAUTO)
 
-	attachable_allowed = list(/obj/item/attachable/scope/unremovable/hsg_102/nest)
+	attachable_allowed = list(/obj/item/attachable/scope/unremovable/standard_atgun)
 
-	starting_attachment_types = list(/obj/item/attachable/scope/unremovable/hsg_102/nest)
+	starting_attachment_types = list(/obj/item/attachable/scope/unremovable/standard_atgun)
 
 	allowed_ammo_types = list(
 		/obj/item/ammo_magazine/heavy_isg/he,
