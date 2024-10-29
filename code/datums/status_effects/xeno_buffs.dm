@@ -355,6 +355,8 @@
 	var/minimum_health
 	///If the target xeno was within range
 	var/was_within_range = FALSE
+	/// The beam used to represent the link between linked xenos.
+	var/datum/beam/psylink_beam
 
 /datum/status_effect/xeno_psychic_link/on_creation(mob/living/new_owner, set_duration, mob/living/carbon/target_mob, link_range, redirect_mod, minimum_health, scaling = FALSE)
 	owner = new_owner
@@ -385,6 +387,7 @@
 	REMOVE_TRAIT(owner, TRAIT_PSY_LINKED, TRAIT_STATUS_EFFECT(id))
 	owner.remove_filter(id)
 	target_mob.remove_filter(id)
+	QDEL_NULL(psylink_beam)
 	to_chat(target_mob, span_xenonotice("[owner] has unlinked from you."))
 	SEND_SIGNAL(src, COMSIG_XENO_PSYCHIC_LINK_REMOVED)
 
@@ -410,11 +413,14 @@
 		RegisterSignal(target_mob, COMSIG_XENOMORPH_BRUTE_DAMAGE, PROC_REF(handle_brute_damage))
 		owner.add_filter(id, 2, outline_filter(2, PSYCHIC_LINK_COLOR))
 		target_mob.add_filter(id, 2, outline_filter(2, PSYCHIC_LINK_COLOR))
+		psylink_beam = owner.beam(target_mob, icon_state= "medbeam", beam_type = /obj/effect/ebeam/essence_link)
+		psylink_beam.visuals.alpha = 127
 		return
 	UnregisterSignal(target_mob, COMSIG_XENOMORPH_BURN_DAMAGE)
 	UnregisterSignal(target_mob, COMSIG_XENOMORPH_BRUTE_DAMAGE)
 	owner.remove_filter(id)
 	target_mob.remove_filter(id)
+	QDEL_NULL(psylink_beam)
 
 ///Transfers mitigated burn damage
 /datum/status_effect/xeno_psychic_link/proc/handle_burn_damage(datum/source, amount, list/amount_mod)
@@ -839,4 +845,29 @@
 /datum/status_effect/blessing/warding/on_remove()
 	buff_owner.soft_armor = buff_owner.soft_armor.detachArmor(armor_modifier)
 	armor_modifier = null
+	return ..()
+
+// ***************************************
+// *********** Queen Screeches
+// ***************************************
+/datum/status_effect/frenzy_screech
+	id = "frenzy_screech"
+	status_type = STATUS_EFFECT_REFRESH
+	alert_type = null
+	duration = 30 SECONDS
+	// How much should melee damage modifier increase by?
+	var/modifier = 0.1
+
+/datum/status_effect/frenzy_screech/on_apply()
+	if(!isxeno(owner))
+		return FALSE
+	var/mob/living/carbon/xenomorph/xeno_owner = owner
+	xeno_owner.xeno_melee_damage_modifier += modifier
+	xeno_owner.add_filter("frenzy_screech_outline", 3, outline_filter(1, COLOR_VIVID_RED))
+	return TRUE
+
+/datum/status_effect/frenzy_screech/on_remove()
+	var/mob/living/carbon/xenomorph/xeno_owner = owner
+	xeno_owner.xeno_melee_damage_modifier -= modifier
+	xeno_owner.remove_filter("frenzy_screech_outline")
 	return ..()
