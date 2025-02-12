@@ -112,3 +112,6 @@
   - code_imp: Aligned skin.dmf with Tg's skin.dmf to make porting simple
   - code_imp: Autofit viewport no longer has an arbitrary 1 second delay outside of
       during the user connecting
+2025-02-12:
+  PibeCantina:
+  - qol: Makes the platforms on gelida non dense
