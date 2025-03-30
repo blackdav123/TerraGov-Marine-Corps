@@ -153,6 +153,9 @@
 	READ_FILE(S["toggles_gameplay"], toggles_gameplay)
 	READ_FILE(S["fullscreen_mode"], fullscreen_mode)
 	READ_FILE(S["show_status_bar"], show_status_bar)
+	READ_FILE(S["ambient_occlusion"], ambient_occlusion)
+	READ_FILE(S["multiz_parallax"], multiz_parallax)
+	READ_FILE(S["multiz_performance"], multiz_performance)
 	READ_FILE(S["show_typing"], show_typing)
 	READ_FILE(S["ghost_hud"], ghost_hud)
 	READ_FILE(S["windowflashing"], windowflashing)
@@ -161,6 +164,7 @@
 	READ_FILE(S["pixel_size"], pixel_size)
 	READ_FILE(S["scaling_method"], scaling_method)
 	READ_FILE(S["menuoptions"], menuoptions)
+	READ_FILE(S["ignoring"], ignoring)
 	READ_FILE(S["ghost_vision"], ghost_vision)
 	READ_FILE(S["ghost_orbit"], ghost_orbit)
 	READ_FILE(S["ghost_form"], ghost_form)
@@ -173,7 +177,7 @@
 	READ_FILE(S["radio_tts_flags"], radio_tts_flags)
 	READ_FILE(S["fast_mc_refresh"], fast_mc_refresh)
 	READ_FILE(S["split_admin_tabs"], split_admin_tabs)
-	READ_FILE(S["hear_looc_anywhere_as_staff"], hear_looc_anywhere_as_staff)
+	READ_FILE(S["hear_ooc_anywhere_as_staff"], hear_ooc_anywhere_as_staff)
 
 	READ_FILE(S["key_bindings"], key_bindings)
 	READ_FILE(S["slot_draw_order"], slot_draw_order_pref)
@@ -218,6 +222,9 @@
 	toggles_gameplay = sanitize_integer(toggles_gameplay, NONE, MAX_BITFLAG, initial(toggles_gameplay))
 	fullscreen_mode = sanitize_integer(fullscreen_mode, FALSE, TRUE, initial(fullscreen_mode))
 	show_status_bar = sanitize_integer(show_status_bar, FALSE, TRUE, initial(show_status_bar))
+	ambient_occlusion = sanitize_integer(ambient_occlusion, FALSE, TRUE, initial(ambient_occlusion))
+	multiz_parallax = sanitize_integer(multiz_parallax, FALSE, TRUE, initial(multiz_parallax))
+	multiz_performance = sanitize_integer(multiz_performance, MULTIZ_PERFORMANCE_DISABLE, MAX_EXPECTED_Z_DEPTH - 1, initial(multiz_performance))
 	show_typing = sanitize_integer(show_typing, FALSE, TRUE, initial(show_typing))
 	ghost_hud = sanitize_integer(ghost_hud, NONE, MAX_BITFLAG, initial(ghost_hud))
 	windowflashing = sanitize_integer(windowflashing, FALSE, TRUE, initial(windowflashing))
@@ -225,6 +232,7 @@
 	widescreenpref = sanitize_integer(widescreenpref, FALSE, TRUE, initial(widescreenpref))
 	pixel_size = sanitize_float(pixel_size, PIXEL_SCALING_AUTO, PIXEL_SCALING_3X, 0.5, initial(pixel_size))
 	scaling_method = sanitize_text(scaling_method, initial(scaling_method))
+	ignoring = SANITIZE_LIST(ignoring)
 	ghost_vision = sanitize_integer(ghost_vision, FALSE, TRUE, initial(ghost_vision))
 	ghost_orbit = sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
 	ghost_form = sanitize_inlist_assoc(ghost_form, GLOB.ghost_forms, initial(ghost_form))
@@ -268,7 +276,7 @@
 
 	fast_mc_refresh = sanitize_integer(fast_mc_refresh, FALSE, TRUE, initial(fast_mc_refresh))
 	split_admin_tabs = sanitize_integer(split_admin_tabs, FALSE, TRUE, initial(split_admin_tabs))
-	hear_looc_anywhere_as_staff = sanitize_integer(hear_looc_anywhere_as_staff, FALSE, TRUE, initial(hear_looc_anywhere_as_staff))
+	hear_ooc_anywhere_as_staff = sanitize_integer(hear_ooc_anywhere_as_staff, FALSE, TRUE, initial(hear_ooc_anywhere_as_staff))
 	return TRUE
 
 
@@ -301,6 +309,9 @@
 	toggles_gameplay = sanitize_integer(toggles_gameplay, NONE, MAX_BITFLAG, initial(toggles_gameplay))
 	fullscreen_mode = sanitize_integer(fullscreen_mode, FALSE, TRUE, initial(fullscreen_mode))
 	show_status_bar = sanitize_integer(show_status_bar, FALSE, TRUE, initial(show_status_bar))
+	ambient_occlusion = sanitize_integer(ambient_occlusion, FALSE, TRUE, initial(ambient_occlusion))
+	multiz_parallax = sanitize_integer(multiz_parallax, FALSE, TRUE, initial(multiz_parallax))
+	multiz_performance = sanitize_integer(multiz_performance, MULTIZ_PERFORMANCE_DISABLE, MAX_EXPECTED_Z_DEPTH - 1, initial(multiz_performance))
 	show_typing = sanitize_integer(show_typing, FALSE, TRUE, initial(show_typing))
 	ghost_hud = sanitize_integer(ghost_hud, NONE, MAX_BITFLAG, initial(ghost_hud))
 	windowflashing = sanitize_integer(windowflashing, FALSE, TRUE, initial(windowflashing))
@@ -308,6 +319,7 @@
 	widescreenpref = sanitize_integer(widescreenpref, FALSE, TRUE, initial(widescreenpref))
 	pixel_size = sanitize_float(pixel_size, PIXEL_SCALING_AUTO, PIXEL_SCALING_3X, 0.5, initial(pixel_size))
 	scaling_method = sanitize_text(scaling_method, initial(scaling_method))
+	ignoring = SANITIZE_LIST(ignoring)
 	chem_macros = sanitize_islist(chem_macros, list())
 	ghost_vision = sanitize_integer(ghost_vision, FALSE, TRUE, initial(ghost_vision))
 	ghost_orbit = sanitize_inlist(ghost_orbit, GLOB.ghost_orbits, initial(ghost_orbit))
@@ -346,7 +358,7 @@
 	// Admin
 	fast_mc_refresh = sanitize_integer(fast_mc_refresh, FALSE, TRUE, initial(fast_mc_refresh))
 	split_admin_tabs = sanitize_integer(split_admin_tabs, FALSE, TRUE, initial(split_admin_tabs))
-	hear_looc_anywhere_as_staff = sanitize_integer(hear_looc_anywhere_as_staff, FALSE, TRUE, initial(hear_looc_anywhere_as_staff))
+	hear_ooc_anywhere_as_staff = sanitize_integer(hear_ooc_anywhere_as_staff, FALSE, TRUE, initial(hear_ooc_anywhere_as_staff))
 
 	WRITE_FILE(S["default_slot"], default_slot)
 	WRITE_FILE(S["lastchangelog"], lastchangelog)
@@ -361,6 +373,9 @@
 	WRITE_FILE(S["toggles_gameplay"], toggles_gameplay)
 	WRITE_FILE(S["fullscreen_mode"], fullscreen_mode)
 	WRITE_FILE(S["show_status_bar"], show_status_bar)
+	WRITE_FILE(S["ambient_occlusion"], ambient_occlusion)
+	WRITE_FILE(S["multiz_parallax"], multiz_parallax)
+	WRITE_FILE(S["multiz_performance"], multiz_performance)
 	WRITE_FILE(S["show_typing"], show_typing)
 	WRITE_FILE(S["ghost_hud"], ghost_hud)
 	WRITE_FILE(S["windowflashing"], windowflashing)
@@ -369,6 +384,7 @@
 	WRITE_FILE(S["pixel_size"], pixel_size)
 	WRITE_FILE(S["scaling_method"], scaling_method)
 	WRITE_FILE(S["menuoptions"], menuoptions)
+	WRITE_FILE(S["ignoring"], ignoring)
 	WRITE_FILE(S["chem_macros"], chem_macros)
 	WRITE_FILE(S["ghost_vision"], ghost_vision)
 	WRITE_FILE(S["ghost_orbit"], ghost_orbit)
@@ -406,7 +422,7 @@
 	// Admin options
 	WRITE_FILE(S["fast_mc_refresh"], fast_mc_refresh)
 	WRITE_FILE(S["split_admin_tabs"], split_admin_tabs)
-	WRITE_FILE(S["hear_looc_anywhere_as_staff"], hear_looc_anywhere_as_staff)
+	WRITE_FILE(S["hear_ooc_anywhere_as_staff"], hear_ooc_anywhere_as_staff)
 
 	return TRUE
 

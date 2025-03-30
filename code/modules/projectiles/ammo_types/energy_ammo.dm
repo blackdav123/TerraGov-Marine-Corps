@@ -110,7 +110,7 @@
 	proj.proj_max_range -= 2
 
 /datum/ammo/energy/bfg/drop_nade(turf/T)
-	explosion(T, 0, 0, 4, 0, 0)
+	explosion(T, 0, 0, 4, 0, 0, explosion_cause=src)
 
 /datum/ammo/energy/bfg/do_at_max_range(turf/target_turf, obj/projectile/proj)
 	drop_nade(target_turf.density ? get_step_towards(target_turf, proj) : target_turf)
@@ -122,6 +122,16 @@
 	armor_type = LASER
 	damage = 40
 	penetration = 5
+	max_range = 7
+	hitscan_effect_icon = "beam_heavy"
+
+/datum/ammo/energy/assault_armor
+	name = "assault armor bolt"
+	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN
+	hud_state = "laser_overcharge"
+	armor_type = LASER
+	damage = 200
+	penetration = 30
 	max_range = 7
 	hitscan_effect_icon = "beam_heavy"
 
@@ -397,7 +407,7 @@
 	damage = 60
 	penetration = 30
 	accurate_range_min = 5
-	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN|AMMO_SNIPER
+	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN|AMMO_BETTER_COVER_RNG|AMMO_SNIPER
 	sundering = 5
 	max_range = 40
 	damage_falloff = 0
@@ -410,7 +420,7 @@
 	damage = 40
 	penetration = 10
 	accurate_range_min = 5
-	ammo_behavior_flags = AMMO_ENERGY|AMMO_INCENDIARY|AMMO_HITSCAN|AMMO_SNIPER
+	ammo_behavior_flags = AMMO_ENERGY|AMMO_INCENDIARY|AMMO_HITSCAN|AMMO_BETTER_COVER_RNG|AMMO_SNIPER
 	sundering = 1
 	hitscan_effect_icon = "u_laser_beam"
 	bullet_color = COLOR_DISABLER_BLUE
@@ -445,7 +455,7 @@
 	hud_state = "laser_disabler"
 	damage = 100
 	penetration = 30
-	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN|AMMO_SNIPER
+	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN|AMMO_BETTER_COVER_RNG|AMMO_SNIPER
 	sundering = 1
 	hitscan_effect_icon = "u_laser_beam"
 	bonus_projectiles_scatter = 0
@@ -529,7 +539,7 @@
 	hitscan_effect_icon = "xray_beam"
 
 /datum/ammo/energy/lasgun/marine/heavy_laser
-	ammo_behavior_flags = AMMO_TARGET_TURF|AMMO_SNIPER|AMMO_ENERGY|AMMO_HITSCAN|AMMO_INCENDIARY
+	ammo_behavior_flags = AMMO_TARGET_TURF|AMMO_BETTER_COVER_RNG|AMMO_ENERGY|AMMO_HITSCAN|AMMO_INCENDIARY
 	hud_state = "laser_overcharge"
 	damage = 60
 	penetration = 10
@@ -609,7 +619,7 @@
 	max_range = 12
 
 /datum/ammo/energy/plasma/blast/drop_nade(turf/T)
-	explosion(T, weak_impact_range = 3, color = COLOR_DISABLER_BLUE)
+	explosion(T, weak_impact_range = 3, color = COLOR_DISABLER_BLUE, explosion_cause=src)
 
 /datum/ammo/energy/plasma/blast/on_hit_obj(obj/target_obj, obj/projectile/proj)
 	drop_nade(target_obj.density ? get_step_towards(target_obj, proj) : target_obj.loc)
@@ -632,7 +642,7 @@
 	var/melting_stacks = 2
 
 /datum/ammo/energy/plasma/blast/melting/drop_nade(turf/T)
-	explosion(T, weak_impact_range = 4, color = COLOR_DISABLER_BLUE)
+	explosion(T, weak_impact_range = 4, color = COLOR_DISABLER_BLUE, explosion_cause=src)
 	for(var/mob/living/living_victim in viewers(3, T)) //normally using viewers wouldn't work due to darkness and smoke both blocking vision. However explosions clear both temporarily so we avoid this issue.
 		var/datum/status_effect/stacking/melting/debuff = living_victim.has_status_effect(STATUS_EFFECT_MELTING)
 		if(debuff)
@@ -648,7 +658,7 @@
 	ammo_behavior_flags = AMMO_ENERGY
 
 /datum/ammo/energy/plasma/blast/shatter/drop_nade(turf/T)
-	explosion(T, light_impact_range = 2, weak_impact_range = 5, throw_range = 0, color = COLOR_DISABLER_BLUE)
+	explosion(T, light_impact_range = 2, weak_impact_range = 5, throw_range = 0, color = COLOR_DISABLER_BLUE, explosion_cause=src)
 	for(var/mob/living/living_victim in viewers(3, T))
 		living_victim.apply_status_effect(STATUS_EFFECT_SHATTER, 5 SECONDS)
 
@@ -689,7 +699,7 @@
 		return
 	var/mob/living/living_victim = target_mob
 	living_victim.apply_status_effect(STATUS_EFFECT_SHATTER, PLASMA_CANNON_SHATTER_DURATION)
-	staggerstun(living_victim, proj, PLASMA_CANNON_INNER_STAGGERSTUN_RANGE, weaken = 0.5 SECONDS, knockback = 1, hard_size_threshold = 1)
+	staggerstun(living_victim, proj, PLASMA_CANNON_INNER_STAGGERSTUN_RANGE, paralyze = 0.5 SECONDS, knockback = 1, hard_size_threshold = 1)
 	staggerstun(living_victim, proj, PLASMA_CANNON_STAGGERSTUN_RANGE, stagger = PLASMA_CANNON_STAGGER_DURATION, slowdown = 2, knockback = 1, hard_size_threshold = 2)
 
 /datum/ammo/energy/plasma/cannon_heavy/on_hit_obj(obj/target_obj, obj/projectile/proj)
@@ -757,7 +767,7 @@
 
 /datum/ammo/energy/plasma_pistol
 	name = "ionized plasma bolt"
-	icon_state = "overchargedlaser"
+	icon_state = "overchargedlaser_green"
 	hud_state = "electrothermal"
 	hud_state_empty = "electrothermal_empty"
 	damage = 40
@@ -804,7 +814,7 @@
 	hitscan_effect_icon = "particle_lance"
 	hud_state = "plasma_blast"
 	hud_state_empty = "battery_empty_flash"
-	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN|AMMO_PASS_THROUGH_MOVABLE|AMMO_SNIPER
+	ammo_behavior_flags = AMMO_ENERGY|AMMO_HITSCAN|AMMO_PASS_THROUGH_MOVABLE|AMMO_BETTER_COVER_RNG
 	bullet_color = LIGHT_COLOR_PURPLE_PINK
 	armor_type = ENERGY
 	max_range = 40

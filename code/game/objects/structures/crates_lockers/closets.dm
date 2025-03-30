@@ -18,6 +18,7 @@
 	soft_armor = list(MELEE = 20, BULLET = 10, LASER = 10, ENERGY = 0, BOMB = 10, BIO = 0, FIRE = 70, ACID = 60)
 	resistance_flags = XENO_DAMAGEABLE
 	interaction_flags = INTERACT_OBJ_DEFAULT|INTERACT_POWERLOADER_PICKUP_ALLOWED
+	obj_flags = parent_type::obj_flags|BLOCK_Z_OUT_DOWN|BLOCK_Z_IN_UP
 
 	/// The material dropped on destruction
 	var/drop_material = /obj/item/stack/sheet/metal
@@ -311,7 +312,7 @@
 
 /obj/structure/closet/verb/verb_toggleopen()
 	set src in oview(1)
-	set category = "Object"
+	set category = "IC.Object"
 	set name = "Toggle Open"
 
 	if(!usr.canmove || usr.stat || usr.restrained())

@@ -264,7 +264,7 @@
 			carbon_victim.adjust_stagger(6 SECONDS * severity)
 			carbon_victim.add_slowdown(6 * severity)
 			shake_camera(carbon_victim, 3 * severity, 3 * severity)
-			carbon_victim.apply_effect(1 SECONDS, WEAKEN)
+			carbon_victim.apply_effect(1 SECONDS, EFFECT_PARALYZE)
 			to_chat(carbon_victim, "You are smashed to the ground!")
 		else if(isvehicle(victim) || ishitbox(victim))
 			var/obj/obj_victim = victim
@@ -312,6 +312,8 @@
 	keybinding_signals = list(
 		KEYBINDING_NORMAL = COMSIG_XENOABILITY_ZEROFORMBEAM,
 	)
+	///last attempted move direction. we use this to allow diagonal beaming.
+	var/last_attempted_movedir
 	///list of turfs we are hitting while shooting our beam
 	var/list/turf/targets
 	///ref to beam that is currently active
@@ -330,6 +332,18 @@
 /datum/action/ability/xeno_action/zero_form_beam/New(Target)
 	. = ..()
 	sound_loop = new
+
+/datum/action/ability/xeno_action/zero_form_beam/give_action(mob/living/L)
+	. = ..()
+	RegisterSignal(L, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(set_attempted_movedir))
+
+/datum/action/ability/xeno_action/zero_form_beam/remove_action(mob/living/L)
+	UnregisterSignal(L, COMSIG_MOVABLE_PRE_MOVE)
+	return ..()
+
+/datum/action/ability/xeno_action/zero_form_beam/proc/set_attempted_movedir(atom/source, atom/newloc, direction)
+	SIGNAL_HANDLER
+	last_attempted_movedir = direction
 
 /obj/effect/ebeam/zeroform/Initialize(mapload)
 	. = ..()
@@ -350,16 +364,17 @@
 		stop_beaming()
 		return
 
-	var/turf/check_turf = get_step(owner, owner.dir)
+	var/dirtouse = last_attempted_movedir ? last_attempted_movedir : owner.dir
+	var/turf/check_turf = get_step(owner, dirtouse)
 	LAZYINITLIST(targets)
 	while(check_turf && length(targets) < ZEROFORM_BEAM_RANGE)
 		targets += check_turf
-		check_turf = get_step(check_turf, owner.dir)
+		check_turf = get_step(check_turf, dirtouse)
 	if(!LAZYLEN(targets))
 		return
 
 	var/particles_type
-	switch(owner.dir)
+	switch(owner.dir) // todo: missing diagonal particles
 		if(WEST)
 			particles_type = /particles/zero_form/west
 		if(EAST)
@@ -526,7 +541,7 @@ GLOBAL_LIST_EMPTY(active_summons)
 
 ///Sends a message to admins, prompting them if they want to cancel a psychic summon
 /datum/action/ability/xeno_action/psychic_summon/proc/request_admins()
-	var/canceltext = "[xeno_owner] is using [name] at [AREACOORD(xeno_owner)] [ADMIN_TPMONTY(xeno_owner)] <a href='?_src_=holder;[HrefToken(TRUE)];cancelsummon=[10 SECONDS]'>\[CANCEL SUMMON\]</a>"
+	var/canceltext = "[xeno_owner] is using [name] at [AREACOORD(xeno_owner)] [ADMIN_TPMONTY(xeno_owner)] <a href='byond://?_src_=holder;[HrefToken(TRUE)];cancelsummon=[10 SECONDS]'>\[CANCEL SUMMON\]</a>"
 	message_admins("[span_prefix("PSYCHIC SUMMON:")] <span class='message linkify'> [canceltext]</span>")
 	log_game("psychic summon started by [xeno_owner] at [AREACOORD(xeno_owner)], timerid to cancel: [10 SECONDS]")
 	notify_ghosts("<b>[xeno_owner]</b> has begun to summon at [AREACOORD(xeno_owner)]!", action = NOTIFY_JUMP)

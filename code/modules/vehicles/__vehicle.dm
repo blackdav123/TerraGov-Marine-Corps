@@ -69,6 +69,9 @@
 		if(0 to 25)
 			. += span_warning("It's falling apart!")
 
+/obj/vehicle/ai_should_stay_buckled(mob/living/carbon/npc)
+	return !is_driver(npc) //NPC's can't operate vehicles so we generally only want them buckled as a passenger
+
 /obj/vehicle/proc/is_key(obj/item/I)
 	return istype(I, key_type)
 
@@ -110,7 +113,6 @@
 /obj/vehicle/proc/add_occupant(mob/M, control_flags)
 	if(!istype(M) || is_occupant(M))
 		return FALSE
-
 	LAZYSET(occupants, M, NONE)
 	add_control_flags(M, control_flags)
 	after_add_occupant(M)

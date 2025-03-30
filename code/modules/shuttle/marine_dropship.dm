@@ -493,6 +493,9 @@
 	var/datum/game_mode/infestation/infestation_mode = SSticker.mode //Minor QOL, any xeno can check the console after a leader hijacks
 	if(!(xeno_attacker.xeno_caste.caste_flags & CASTE_IS_INTELLIGENT) && (infestation_mode.round_stage != INFESTATION_MARINE_CRASHING))
 		return
+	if(xeno_attacker.hive.living_xeno_ruler != xeno_attacker) //If we aren't the actual hive leader, prevent us from controling alamo
+		to_chat(xeno_attacker, span_xenowarning("We must be the hive leader!"))
+		return
 	#ifndef TESTING
 	if(SSticker.round_start_time + SHUTTLE_HIJACK_LOCK > world.time)
 		to_chat(xeno_attacker, span_xenowarning("It's too early to do this!"))
@@ -693,9 +696,16 @@
 			var/obj/docking_port/stationary/marine_dropship/crash_target/CT = pick(SSshuttle.crash_targets)
 			if(!CT)
 				return
+			if(SSmonitor.gamestate == SHIPSIDE)
+				to_chat(xeno, span_xenowarning("The shuttle is already at the ship!"))
+				return
+
 			do_hijack(shuttle, CT, xeno)
+
 		if("abduct")
 			var/datum/game_mode/infestation/infestation_mode = SSticker.mode
+			if(!istype(infestation_mode))
+				return
 			if(infestation_mode.round_stage == INFESTATION_MARINE_CRASHING)
 				message_admins("[usr] tried to capture the shuttle after it was already hijacked, possible use of exploits.")
 				return
@@ -1006,6 +1016,7 @@
 
 /obj/structure/dropship_piece/glassone/tadpole
 	icon_state = "shuttle_glass1"
+	max_integrity = 600
 	resistance_flags = XENO_DAMAGEABLE | DROPSHIP_IMMUNE
 	opacity = FALSE
 	allow_pass_flags = PASS_GLASS
@@ -1017,6 +1028,7 @@
 /obj/structure/dropship_piece/glasstwo/tadpole
 	icon = 'icons/turf/dropship2.dmi'
 	icon_state = "shuttle_glass2"
+	max_integrity = 600
 	resistance_flags = XENO_DAMAGEABLE | DROPSHIP_IMMUNE
 	opacity = FALSE
 	allow_pass_flags = PASS_GLASS
@@ -1024,13 +1036,14 @@
 /obj/structure/dropship_piece/singlewindow/tadpole
 	icon = 'icons/turf/dropship2.dmi'
 	icon_state = "shuttle_single_window"
+	max_integrity = 600
 	allow_pass_flags = PASS_GLASS
 	resistance_flags = XENO_DAMAGEABLE | DROPSHIP_IMMUNE
 	opacity = FALSE
 
 /obj/structure/dropship_piece/tadpole/cockpit
 	desc = "The nose part of the tadpole, able to be destroyed."
-	max_integrity = 500
+	max_integrity = 600
 	resistance_flags = XENO_DAMAGEABLE | DROPSHIP_IMMUNE
 	opacity = FALSE
 	layer = BELOW_OBJ_LAYER
@@ -1505,7 +1518,7 @@
 	var/obj/docking_port/mobile/M = SSshuttle.getShuttle(shuttleId)
 	var/dat = "Status: [M ? M.getStatusText() : "*Missing*"]<br><br>"
 	if(M)
-		dat += "<A href='?src=[REF(src)];move=crash-infinite-transit'>Initiate Evacuation</A><br>"
+		dat += "<A href='byond://?src=[REF(src)];move=crash-infinite-transit'>Initiate Evacuation</A><br>"
 
 	var/datum/browser/popup = new(user, "computer", M ? M.name : "shuttle", 300, 200)
 	popup.set_content("<center>[dat]</center>")

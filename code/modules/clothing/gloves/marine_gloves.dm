@@ -36,7 +36,7 @@
 	worn_icon_list = list(slot_gloves = /datum/greyscale_config/marine_uniform)
 	greyscale_colors = ARMOR_PALETTE_BLACK
 	greyscale_config = /datum/greyscale_config/marine_uniform
-	colorable_colors = ARMOR_PALETTES_LIST
+	colorable_colors = LEGACY_ARMOR_PALETTES_LIST
 	colorable_allowed = ICON_STATE_VARIANTS_ALLOWED|PRESET_COLORS_ALLOWED
 
 
@@ -55,8 +55,9 @@
 
 /obj/item/clothing/gloves/marine/officer
 	name = "officer gloves"
-	desc = "Shiny and impressive. They look expensive."
+	desc = "Shiny and impressive while also insulating against electric shocks. They look expensive."
 	icon_state = "black"
+	siemens_coefficient = 0
 
 /obj/item/clothing/gloves/marine/officer/chief
 	name = "chief officer gloves"

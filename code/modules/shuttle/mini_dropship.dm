@@ -168,6 +168,7 @@
 		to_chat(ui_user, span_warning("Can not toggle night vision mode in caves"))
 		return
 	nvg_vision_mode = !nvg_vision_mode
+	ui_user?.update_sight()
 
 /obj/machinery/computer/camera_advanced/shuttle_docker/minidropship/attack_alien(mob/living/carbon/xenomorph/xeno_attacker, damage_amount = xeno_attacker.xeno_caste.melee_damage, damage_type = BRUTE, armor_type = MELEE, effects = TRUE, armor_penetration = xeno_attacker.xeno_caste.melee_ap, isrightclick = FALSE)
 	. = ..()
@@ -306,7 +307,7 @@
 
 /datum/action/innate/shuttledocker_land
 	name = "Land"
-	action_icon = 'icons/mecha/actions_mecha.dmi'
+	action_icon = 'icons/mob/actions/actions_mecha.dmi'
 	action_icon_state = "land"
 
 /datum/action/innate/shuttledocker_land/Activate()
@@ -322,6 +323,9 @@
 	if(is_ground_level(origin.z)) //Safety check to prevent instant transmission
 		to_chat(owner, span_warning("The shuttle can't move while docked on the planet"))
 		return
+	var/area/landing_area = get_area(remote_eye)
+	if(!(landing_area.area_flags & MARINE_BASE))
+		SEND_GLOBAL_SIGNAL(COMSIG_GLOB_TADPOLE_LANDED_OUT_LZ)
 	origin.shuttle_port.callTime = SHUTTLE_LANDING_CALLTIME
 	origin.next_fly_state = SHUTTLE_ON_GROUND
 	origin.open_prompt = FALSE

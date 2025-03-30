@@ -41,6 +41,7 @@
 #define COOLDOWN_LOADOUT_EQUIPPED "cooldown_loadout_equipped"
 #define COOLDOWN_LOADOUT_VISUALIZATION "cooldown_loadout_visualization"
 #define COOLDOWN_TADPOLE_LAUNCHING "cooldown_tadpole_launching"
+#define COOLDOWN_TANGLE_EMITTER "cooldown_tangle_emitter"
 #define COOLDOWN_BOMBVEST_SHIELD_DROP "cooldown_bombvest_shield_drop"
 #define COOLDOWN_HIVEMIND_MANIFESTATION "cooldown_hivemind_manifestation"
 #define COOLDOWN_ORBITAL_SPOTLIGHT "orbital_spotlight"
@@ -65,10 +66,12 @@
 #define COOLDOWN_MECHA_MESSAGE "mecha_message"
 #define COOLDOWN_MECHA_EQUIPMENT(type) ("mecha_equip_[type]")
 #define COOLDOWN_MECHA_ARMOR "mecha_armor"
+#define COOLDOWN_MECHA_ASSAULT_ARMOR "mecha_assault_armor"
 #define COOLDOWN_MECHA_MELEE_ATTACK "mecha_melee"
 #define COOLDOWN_MECHA_SMOKE "mecha_smoke"
 #define COOLDOWN_MECHA_SKYFALL "mecha_skyfall"
 #define COOLDOWN_MECHA_MISSILE_STRIKE "mecha_missile_strike"
+#define COOLDOWN_MECHA_DASH "mecha_dash"
 
 #define COOLDOWN_VEHICLE_CRUSHSOUND "cooldown_vehicle_crushsound"
 //// COOLDOWN SYSTEMS

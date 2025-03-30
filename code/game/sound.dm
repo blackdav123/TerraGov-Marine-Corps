@@ -49,9 +49,21 @@
 A good representation is: 'byond applies a volume reduction to the sound every X tiles', where X is falloff.
  */
 /proc/playsound(atom/source, soundin, vol, vary, sound_range, falloff, is_global, frequency, channel = 0, ambient_sound = FALSE)
+	if(isarea(source))
+		CRASH("playsound(): source is an area")
+
+	if(islist(soundin))
+		CRASH("playsound(): soundin attempted to pass a list! Consider using pick()")
+
+	if(!soundin)
+		CRASH("playsound(): no soundin passed")
+
+	if(vol < SOUND_AUDIBLE_VOLUME_MIN) // never let sound go below SOUND_AUDIBLE_VOLUME_MIN or bad things will happen
+		CRASH("playsound(): volume below SOUND_AUDIBLE_VOLUME_MIN. [vol] < [SOUND_AUDIBLE_VOLUME_MIN]")
+
 	var/turf/turf_source = get_turf(source)
 
-	if (!turf_source || !soundin || !vol)
+	if (!turf_source)
 		return
 
 	//allocate a channel if necessary now so its the same for everyone
@@ -82,6 +94,8 @@ A good representation is: 'byond applies a volume reduction to the sound every X
 	//We do tanks separately, since they are not actually on the source z, and we need some other stuff to get accurate directional sound
 	for(var/obj/vehicle/sealed/armored/armor AS in GLOB.tank_list)
 		if(!armor.interior || armor.z != turf_source.z || get_dist(armor.loc, turf_source) > sound_range)
+			continue
+		if(armor == source) // sounds vehicles with interiors make must be played inside the tank, see /obj/vehicle/sealed/armored/proc/play_interior_sound(...)
 			continue
 		if(!length(armor.interior.occupants))
 			continue
@@ -343,6 +357,10 @@ A good representation is: 'byond applies a volume reduction to the sound every X
 			soundin = 'sound/effects/alien/behemoth/roll.ogg'
 		if(SFX_BEHEMOTH_EARTH_PILLAR_HIT)
 			soundin = pick('sound/effects/alien/behemoth/earth_pillar_hit_1.ogg', 'sound/effects/alien/behemoth/earth_pillar_hit_2.ogg', 'sound/effects/alien/behemoth/earth_pillar_hit_3.ogg', 'sound/effects/alien/behemoth/earth_pillar_hit_4.ogg', 'sound/effects/alien/behemoth/earth_pillar_hit_5.ogg', 'sound/effects/alien/behemoth/earth_pillar_hit_6.ogg')
+		if(SFX_CONQUEROR_WILL_HOOK)
+			soundin = pick('sound/effects/alien/conqueror/will_hook_1.ogg', 'sound/effects/alien/conqueror/will_hook_2.ogg', 'sound/effects/alien/conqueror/will_hook_3.ogg')
+		if(SFX_CONQUEROR_WILL_EXTRA)
+			soundin = pick('sound/effects/alien/conqueror/will_extra_1.ogg', 'sound/effects/alien/conqueror/will_extra_2.ogg')
 
 		// Human
 		if(SFX_MALE_SCREAM)
@@ -393,5 +411,5 @@ A good representation is: 'byond applies a volume reduction to the sound every X
 			soundin = pick('sound/voice/robot/robot_warcry1.ogg', 'sound/voice/robot/robot_warcry2.ogg', 'sound/voice/robot/robot_warcry3.ogg')
 
 		if(SFX_HOVER_TANK)
-			soundin = pick('sound/vehicles/hover_1.ogg', 'sound/vehicles/hover_2.ogg', 'sound/vehicles/hover_3.ogg', 'sound/vehicles/hover_4.ogg')
+			soundin = pick('sound/vehicles/hover_tank/hover_1.ogg', 'sound/vehicles/hover_tank/hover_2.ogg', 'sound/vehicles/hover_tank/hover_3.ogg', 'sound/vehicles/hover_tank/hover_4.ogg')
 	return soundin

@@ -37,16 +37,15 @@
 	animate_movement = NO_STEPS
 	light_system = MOVABLE_LIGHT
 	light_range = 1.5
-	light_power = 2
+	light_power = 1
 	light_color = COLOR_VERY_SOFT_YELLOW
+	appearance_flags = KEEP_TOGETHER
 
 	///greyscale support
 	greyscale_config
 	greyscale_colors
 	///Any special effects applied to this projectile
 	var/projectile_behavior_flags = NONE
-	///Hit impact sound
-	var/hitsound
 	///The ammo data which holds most of the actual info
 	var/datum/ammo/ammo
 	///The bodypart you're trying to hit
@@ -166,6 +165,7 @@
 		set_greyscale_config(ammo.projectile_greyscale_config)
 		set_greyscale_colors(ammo.projectile_greyscale_colors)
 
+	icon = ammo.icon
 	icon_state = ammo.icon_state
 	damage = ammo.damage + bonus_damage //Mainly for emitters.
 	penetration = ammo.penetration
@@ -199,7 +199,7 @@
 	if(source)
 		shot_from = source
 	if(loc_override)
-		loc = loc_override
+		abstract_move(loc_override)
 	if(!isturf(loc))
 		forceMove(get_turf(src))
 	starting_turf = loc
@@ -354,11 +354,15 @@
 		if(ammo.bullet_color)
 			set_light_color(ammo.bullet_color)
 			set_light_on(TRUE)
+			update_appearance(UPDATE_OVERLAYS)
 	else
 		alpha = 64
 
 	START_PROCESSING(SSprojectiles, src) //If no hits on the first moves, enter the processing queue for next.
 
+/obj/projectile/update_overlays()
+	. = ..()
+	. += emissive_appearance(icon, icon_state, src, layer, reset_transform = FALSE)
 
 /obj/projectile/process()
 	if(QDELETED(src))
@@ -678,7 +682,7 @@ So if we are on the 32th absolute pixel coordinate we are on tile 1, but if we a
 			return FALSE //No effect now, but we save the reference to check on exiting the tile.
 		if (uncrossing)
 			return FALSE //you don't hit the cade from behind.
-	if(proj.ammo.ammo_behavior_flags & AMMO_SNIPER || proj.iff_signal) //sniper and IFF rounds are better at getting past cover
+	if(proj.ammo.ammo_behavior_flags & AMMO_BETTER_COVER_RNG || proj.iff_signal) //sniper and IFF rounds are better at getting past cover
 		hit_chance *= 0.8
 	///50% better protection when shooting from outside accurate range.
 	if(proj.distance_travelled > proj.ammo.accurate_range)
@@ -844,6 +848,24 @@ So if we are on the 32th absolute pixel coordinate we are on tile 1, but if we a
 		return FALSE
 	if(proj.ammo.ammo_behavior_flags & AMMO_SKIPS_ALIENS)
 		return FALSE
+	if(proj.ammo.ammo_behavior_flags & AMMO_SNIPER)
+		var/datum/status_effect/incapacitating/recently_sniped/sniped = is_recently_sniped()
+		var/obj/item/weapon/gun/shooter = proj.shot_from
+
+		if(!isgun(proj.shot_from))
+			stack_trace("Got a non-gun projectile source while trying to apply sniper status effect! Source: [proj.shot_from]")
+			return ..()
+
+		if(sniped)
+			if(sniped.check_duration())
+				return ..()
+
+			proj.damage = proj.damage * 0.1
+			///The -1 is because we don't want to take away damage from guns firing on cooldown
+			sniped.duration = max(world.time + shooter.fire_delay - 1, sniped.duration)
+			return ..()
+
+		apply_status_effect(STATUS_EFFECT_SNIPED, shooter.fire_delay - 1)
 	return ..()
 
 ///visual and audio feedback for hits

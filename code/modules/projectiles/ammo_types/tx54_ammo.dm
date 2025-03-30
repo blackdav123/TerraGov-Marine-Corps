@@ -13,7 +13,7 @@
 	handful_amount = 3
 	ping = null //no bounce off.
 	sound_bounce = SFX_ROCKET_BOUNCE
-	ammo_behavior_flags = AMMO_TARGET_TURF|AMMO_SNIPER
+	ammo_behavior_flags = AMMO_TARGET_TURF|AMMO_BETTER_COVER_RNG
 	armor_type = BOMB
 	damage_falloff = 0.5
 	shell_speed = 2
@@ -111,7 +111,7 @@
 	projectile_greyscale_colors = COLOR_AMMO_HIGH_EXPLOSIVE
 
 /datum/ammo/tx54/he/drop_nade(turf/T)
-	explosion(T, 0, 0, 1, 3, 1)
+	explosion(T, 0, 0, 1, 3, 1, explosion_cause=src)
 
 /datum/ammo/tx54/he/on_hit_mob(mob/target_mob, obj/projectile/proj)
 	drop_nade(get_turf(target_mob))
@@ -235,7 +235,7 @@
 	icon_state = "cannister_shot"
 	damage = 30
 	penetration = 0
-	ammo_behavior_flags = AMMO_SNIPER
+	ammo_behavior_flags = AMMO_BETTER_COVER_RNG
 	damage_falloff = 0.5
 	max_range = 3
 	projectile_greyscale_colors = "#4f0303"

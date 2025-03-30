@@ -5,7 +5,7 @@
 */
 
 /datum/ammo/energy/xeno
-	barricade_clear_distance = 0
+	barricade_clear_distance = 1
 	///Plasma cost to fire this projectile
 	var/ability_cost
 	///Particle type used when this ammo is used
@@ -15,7 +15,7 @@
 
 /datum/ammo/energy/xeno/psy_blast
 	name = "psychic blast"
-	ammo_behavior_flags = AMMO_XENO|AMMO_TARGET_TURF|AMMO_SNIPER|AMMO_ENERGY|AMMO_HITSCAN|AMMO_SKIPS_ALIENS
+	ammo_behavior_flags = AMMO_XENO|AMMO_TARGET_TURF|AMMO_BETTER_COVER_RNG|AMMO_ENERGY|AMMO_HITSCAN|AMMO_SKIPS_ALIENS
 	damage = 35
 	penetration = 10
 	sundering = 1

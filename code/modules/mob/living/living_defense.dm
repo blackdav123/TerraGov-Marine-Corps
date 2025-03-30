@@ -72,7 +72,7 @@
 		O.stop_throw()
 		apply_damage(O.throwforce*(speed * 0.2), O.damtype, BODY_ZONE_CHEST, MELEE, is_sharp(O), has_edge(O), TRUE, O.penetration)
 
-	visible_message(span_warning(" [src] has been hit by [AM]."), null, null, 5)
+	visible_message(span_warning("[src] has been hit by [AM]."), null, null, 5)
 	if(ismob(AM.thrower))
 		var/mob/M = AM.thrower
 		if(M.client)
@@ -85,7 +85,7 @@
 		if(W.sharp && prob(W.embedding.embed_chance))
 			W.embed_into(src)
 	if(AM.throw_source)
-		visible_message(span_warning(" [src] staggers under the impact!"),span_warning(" You stagger under the impact!"), null, 5)
+		visible_message(span_warning("[src] staggers under the impact!"),span_warning("You stagger under the impact!"), null, 5)
 		src.throw_at(get_edge_target_turf(src, get_dir(AM.throw_source, src)), 1, speed * 0.5)
 
 /mob/living/turf_collision(turf/T, speed)
@@ -307,3 +307,26 @@
 	blur_eyes(rad_strength) //adds a visual indicator that you've just been irradiated
 	adjust_radiation(rad_strength * 20) //Radiation status effect, duration is in deciseconds
 	to_chat(src, span_warning("Your body tingles as you suddenly feel the strength drain from your body!"))
+
+/**
+ * A proc triggered by callback when someone gets slammed by the tram and lands somewhere.
+ *
+ * This proc is used to force people to fall through things like lattice and unplated flooring at the expense of some
+ * extra damage, so jokers can't use half a stack of iron rods to make getting hit by the tram immediately lethal.
+ */
+/mob/living/proc/tram_slam_land()
+	if(!istype(loc, /turf/open/openspace) && !isplatingturf(loc))
+		return
+
+	if(isplatingturf(loc))
+		var/turf/open/floor/smashed_plating = loc
+		visible_message(span_danger("[src] is thrown violently into [smashed_plating], smashing through it and punching straight through!"),
+				span_userdanger("You're thrown violently into [smashed_plating], smashing through it and punching straight through!"))
+		apply_damage(rand(5,20), BRUTE, BODY_ZONE_CHEST)
+		smashed_plating.ScrapeAway(1)
+
+	for(var/obj/structure/lattice/lattice in loc)
+		visible_message(span_danger("[src] is thrown violently into [lattice], smashing through it and punching straight through!"),
+			span_userdanger("You're thrown violently into [lattice], smashing through it and punching straight through!"))
+		apply_damage(rand(5,10), BRUTE, BODY_ZONE_CHEST)
+		lattice.deconstruct(FALSE)

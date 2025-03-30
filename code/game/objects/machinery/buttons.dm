@@ -13,6 +13,19 @@
 	var/id = null
 	var/next_activate = 0
 
+	var/device_type = null
+	var/obj/item/assembly/device
+
+/obj/machinery/button/Initialize(mapload, ndir)
+	. = ..()
+	if(!device && device_type)
+		device = new device_type(src)
+	setup_device()
+
+/obj/machinery/button/proc/setup_device()
+	if(id && istype(device, /obj/item/assembly/control))
+		var/obj/item/assembly/control/control_device = device
+		control_device.id = id
 
 /obj/machinery/button/indestructible
 	resistance_flags = RESIST_ALL
@@ -53,6 +66,8 @@
 
 	use_power(active_power_usage)
 	icon_state = "[initial(icon_state)]1"
+
+	device?.pulsed()
 
 	pulsed()
 
@@ -318,6 +333,10 @@
 		/obj/item/supplytablet,
 		/obj/item/radio/headset,
 	))
+
+	if(!linked)
+		return
+
 	for(var/obj/item/item in linked.contents)
 		if(item.type in item_blacklist)
 			qdel(item) // Prevents blacklisted items from being spawned, like ASRS tablets and headsets
@@ -333,6 +352,9 @@
 		/obj/vehicle/sealed/armored/multitile/som_tank,
 		/obj/vehicle/sealed/armored/multitile/campaign,
 		/obj/vehicle/sealed/armored/multitile/icc_lvrt,
+		/obj/vehicle/sealed/mecha/combat/greyscale/recon,
+		/obj/vehicle/sealed/mecha/combat/greyscale/assault,
+		/obj/vehicle/sealed/mecha/combat/greyscale/vanguard,
 	)
 
 	var/selected_vehicle = tgui_input_list(user, "Which vehicle do you want to spawn?", "Vehicle spawn", spawnable_vehicles)
