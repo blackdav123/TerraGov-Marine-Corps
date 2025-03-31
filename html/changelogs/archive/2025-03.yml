@@ -633,3 +633,8 @@
   - bugfix: Fixed mech leg repair not fixing movespeed
   yyzsong:
   - balance: Increases resin jelly duration from 15 seconds to 30 seconds.
+2025-03-31:
+  Isy232, Ivanmixo:
+  - balance: Crash now requires 10 xenos for Queen and 14 for King and 8 for Hivelord.
+  - balance: Nuclear War now requires 4 xenos for Queen and 12 (unchanged) for King.
+  - code_imp: Xeno evolution pop requirement can now depend on game mode.
