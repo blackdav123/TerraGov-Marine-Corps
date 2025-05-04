@@ -149,12 +149,6 @@
 			RegisterSignal(mob_parent, COMSIG_STATE_MAINTAINED_DISTANCE, PROC_REF(melee_interact))
 	return ..()
 
-/datum/ai_behavior/human/unregister_action_signals(action_type)
-	switch(action_type)
-		if(MOVING_TO_ATOM)
-			UnregisterSignal(mob_parent, COMSIG_STATE_MAINTAINED_DISTANCE)
-	return ..()
-
 /datum/ai_behavior/human/change_action(next_action, atom/next_target, list/special_distance_to_maintain)
 	. = ..()
 	if(!.)
@@ -184,7 +178,7 @@
 			if(get_dist(escorted_atom, mob_parent) > AI_ESCORTING_MAX_DISTANCE)
 				look_for_next_node(FALSE)
 		if(MOVING_TO_SAFETY)
-			if((COOLDOWN_CHECK(src, ai_retreat_cooldown) || !combat_target)) //we retreat until we cant see hostiles or we max out the timer
+			if((COOLDOWN_FINISHED(src, ai_retreat_cooldown) || !combat_target)) //we retreat until we cant see hostiles or we max out the timer
 				target_distance = initial(target_distance)
 				change_action(ESCORTING_ATOM, escorted_atom)
 
@@ -297,7 +291,7 @@
 
 ///Sets run move intent if able
 /datum/ai_behavior/human/proc/set_run(forced = FALSE)
-	if(!forced && !COOLDOWN_CHECK(src, ai_run_cooldown))
+	if(!forced && !COOLDOWN_FINISHED(src, ai_run_cooldown))
 		return
 	mob_parent.toggle_move_intent(MOVE_INTENT_RUN)
 
@@ -354,7 +348,7 @@
 /datum/ai_behavior/human/proc/try_speak(message, cooldown = 2 SECONDS)
 	if(mob_parent.incapacitated())
 		return
-	if(!COOLDOWN_CHECK(src, ai_chat_cooldown))
+	if(!COOLDOWN_FINISHED(src, ai_chat_cooldown))
 		return
 	//maybe radio arg in the future for some things
 	mob_parent.say(message)
@@ -365,7 +359,7 @@
 	SIGNAL_HANDLER
 	if(damage < 5) //Don't want chip damage causing a retreat
 		return
-	if(!COOLDOWN_CHECK(src, ai_damage_cooldown)) //sanity check since damage can occur very frequently, and makes the NPC less likely to instantly run when they get low
+	if(!COOLDOWN_FINISHED(src, ai_damage_cooldown)) //sanity check since damage can occur very frequently, and makes the NPC less likely to instantly run when they get low
 		return
 	COOLDOWN_START(src, ai_damage_cooldown, 1 SECONDS)
 

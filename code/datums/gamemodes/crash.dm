@@ -20,9 +20,12 @@
 		/datum/job/terragov/squad/engineer = 5,
 		/datum/job/xenomorph = CRASH_LARVA_POINTS_NEEDED,
 	)
+	respawn_time = 15 MINUTES
 	xenorespawn_time = 3 MINUTES
 	blacklist_ground_maps = list(MAP_BIG_RED, MAP_DELTA_STATION, MAP_LV_624, MAP_WHISKEY_OUTPOST, MAP_OSCAR_OUTPOST, MAP_FORT_PHOBOS, MAP_CHIGUSA, MAP_LAVA_OUTPOST, MAP_CORSAT, MAP_KUTJEVO_REFINERY, MAP_BLUESUMMERS)
 	tier_three_penalty = 1
+	tier_three_inclusion = TRUE
+	caste_swap_timer = 5 MINUTES
 	restricted_castes = list(/datum/xeno_caste/wraith, /datum/xeno_caste/hivemind)
 
 	// Round end conditions
@@ -44,7 +47,7 @@
 	evo_requirements = list(
 		/datum/xeno_caste/king = 14,
 		/datum/xeno_caste/queen = 10,
-		/datum/xeno_caste/hivelord = 8,
+		/datum/xeno_caste/hivelord = 5,
 	)
 
 /datum/game_mode/infestation/crash/pre_setup()
@@ -207,9 +210,9 @@
 		xeno_job.add_job_positions(1)
 		xeno_hive.update_tier_limits()
 		return
-	// Make sure there is at least one xeno regardless of ratio.
+	// Make sure there is at least two xenos regardless of ratio.
 	var/total_xenos = xeno_hive.get_total_xeno_number() + (xeno_job.total_positions - xeno_job.current_positions)
-	if(!total_xenos)
+	if(total_xenos < 2)
 		xeno_job.add_job_positions(1)
 		xeno_hive.update_tier_limits()
 

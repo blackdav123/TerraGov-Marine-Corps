@@ -75,8 +75,10 @@
 
 /obj/vehicle/sealed/mecha/combat/greyscale
 	name = "Should not be visible"
-	icon_state = "greyscale"
+	icon = 'icons/blanks/32x32.dmi'
+	base_icon_state = "nothing"
 	layer = ABOVE_ALL_MOB_LAYER
+	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
 	mech_type = EXOSUIT_MODULE_GREYSCALE
 	pixel_x = -16
 	soft_armor = list(MELEE = 25, BULLET = 75, FIRE = 25, BOMB = 50, LASER = 40, ENERGY = 40, ACID = 30, BIO = 100)
@@ -95,8 +97,8 @@
 	var/ability_module_icon = 'icons/mecha/mecha_ability_overlays.dmi'
 	///whether we have currently swapped the back and arm icons
 	var/swapped_to_backweapons = FALSE
-	///whether we use an included builtin boost overlay to show we are boosting
-	var/use_builtin_boost_overlay = TRUE
+	/// whether we should be using the b_ prefix for guns if we're boosting
+	var/use_gun_boost_prefix = FALSE
 	///whetehr we use the damage particles
 	var/use_damage_particles = TRUE
 	///whether this is an unusable wreck
@@ -271,7 +273,7 @@
 /// Checks if we can dash in the specified direction, and activates the ability if so.
 /obj/vehicle/sealed/mecha/combat/greyscale/proc/check_dash(direction)
 	if(last_move_dir == direction && last_mousedown_time + double_tap_timing > world.time)
-		if(TIMER_COOLDOWN_CHECK(src, COOLDOWN_MECHA_DASH))
+		if(TIMER_COOLDOWN_RUNNING(src, COOLDOWN_MECHA_DASH))
 			for(var/mob/occupant AS in return_drivers())
 				balloon_alert(occupant, "Dash cooldown ([(S_TIMER_COOLDOWN_TIMELEFT(src, COOLDOWN_MECHA_DASH) / 10)]s)")
 			return
@@ -288,33 +290,37 @@
 /// Does a dash in the specified direction.
 /obj/vehicle/sealed/mecha/combat/greyscale/proc/activate_dash(direction)
 	if(!no_footstep_particle)
-		dash_sparks_left.particles.spawning = 5
-		dash_sparks_right.particles.spawning = 5
-		dash_sparks_left.particles.position = list(foot_offsets["left_foot"][dir2text_short(direction)][1], foot_offsets["left_foot"][dir2text_short(direction)][2])
-		dash_sparks_right.particles.position = list(foot_offsets["right_foot"][dir2text_short(direction)][1], foot_offsets["right_foot"][dir2text_short(direction)][2])
-		switch(direction)
-			if(EAST)
-				dash_sparks_left.particles.velocity = list(-12, 0)
-				dash_sparks_right.particles.velocity = list(-12, 0)
-				dash_sparks_right.particles.gravity = list(0, 1)
-			if(WEST)
-				dash_sparks_left.particles.velocity = list(12, 0)
-				dash_sparks_right.particles.velocity = list(12, 0)
-				dash_sparks_right.particles.gravity = list(0, 1)
-			if(NORTH)
-				dash_sparks_left.particles.velocity = list(0, -12)
-				dash_sparks_right.particles.velocity = list(0, -12)
-				dash_sparks_right.particles.gravity = list(0, 0)
-			else
-				dash_sparks_left.particles.velocity = list(0, 12)
-				dash_sparks_right.particles.velocity = list(0, 12)
-				dash_sparks_right.particles.gravity = list(0, 0)
+		add_sparks(direction)
 		addtimer(CALLBACK(src, PROC_REF(remove_sparks)), 0.4 SECONDS)
-	var/turf/target_turf = get_step(src, direction)
-	for(var/i in 1 to dash_range)
-		target_turf = get_step(target_turf, direction)
-	throw_at(target_turf, dash_range, 1, src, FALSE, TRUE, TRUE)
 	playsound(get_turf(src), 'sound/mecha/weapons/laser_sword.ogg', 70)
+	ASYNC
+		for(var/i=1 to dash_range)
+			step(src, direction)
+			sleep(1)
+
+///adds dashing sparks in the specified direction
+/obj/vehicle/sealed/mecha/combat/greyscale/proc/add_sparks(direction)
+	dash_sparks_left.particles.spawning = 5
+	dash_sparks_right.particles.spawning = 5
+	dash_sparks_left.particles.position = list(foot_offsets["left_foot"][dir2text_short(direction)][1], foot_offsets["left_foot"][dir2text_short(direction)][2])
+	dash_sparks_right.particles.position = list(foot_offsets["right_foot"][dir2text_short(direction)][1], foot_offsets["right_foot"][dir2text_short(direction)][2])
+	switch(direction)
+		if(EAST)
+			dash_sparks_left.particles.velocity = list(-12, 0)
+			dash_sparks_right.particles.velocity = list(-12, 0)
+			dash_sparks_right.particles.gravity = list(0, 1)
+		if(WEST)
+			dash_sparks_left.particles.velocity = list(12, 0)
+			dash_sparks_right.particles.velocity = list(12, 0)
+			dash_sparks_right.particles.gravity = list(0, 1)
+		if(NORTH)
+			dash_sparks_left.particles.velocity = list(0, -12)
+			dash_sparks_right.particles.velocity = list(0, -12)
+			dash_sparks_right.particles.gravity = list(0, 0)
+		else
+			dash_sparks_left.particles.velocity = list(0, 12)
+			dash_sparks_right.particles.velocity = list(0, 12)
+			dash_sparks_right.particles.gravity = list(0, 0)
 
 /// Turns off dash sparks particles.
 /obj/vehicle/sealed/mecha/combat/greyscale/proc/remove_sparks()
@@ -353,6 +359,9 @@
 		holder_right.particles.position = list(30, 32, 0)
 		holder_left.layer = layer+0.001
 
+/obj/vehicle/sealed/mecha/combat/greyscale/get_mecha_occupancy_state()
+	return base_icon_state
+
 /obj/vehicle/sealed/mecha/combat/greyscale/update_overlays()
 	. = ..()
 	var/list/render_order = get_greyscale_render_order(dir)
@@ -362,7 +371,7 @@
 
 	for(var/key in render_order)
 		/// only used for weapons
-		var/prefix = is_wreck ? "d_" : (leg_overload_mode && !use_builtin_boost_overlay ? "b_" : "")
+		var/prefix = is_wreck ? "d_" : (leg_overload_mode && use_gun_boost_prefix ? "b_" : "")
 		if(key == MECHA_R_ARM)
 			var/datum/mech_limb/arm/holding = limbs[MECH_GREY_R_ARM]
 			if(!holding || holding?.disabled)
@@ -372,7 +381,7 @@
 				prefix += "fire"
 			if(right_gun)
 				var/mutable_appearance/r_gun = mutable_appearance(holding.gun_icon, prefix+right_gun.icon_state + "_right")
-				r_gun.pixel_x = holding.pixel_x_offset
+				r_gun.pixel_w = holding.pixel_x_offset
 				. += r_gun
 			continue
 		if(key == MECHA_L_ARM)
@@ -384,7 +393,7 @@
 				prefix += "fire"
 			if(left_gun)
 				var/mutable_appearance/l_gun = mutable_appearance(holding.gun_icon, prefix+left_gun.icon_state + "_left")
-				l_gun.pixel_x = holding.pixel_x_offset
+				l_gun.pixel_w = holding.pixel_x_offset
 				. += l_gun
 			continue
 
@@ -414,14 +423,13 @@
 
 	for(var/obj/item/mecha_parts/mecha_equipment/ability/module in equip_by_category[MECHA_UTILITY])
 		if(module.icon_state)
-			var/prefix = is_wreck ? "d_" : (leg_overload_mode && !use_builtin_boost_overlay ? "b_" : "")
+			var/prefix = is_wreck ? "d_" : (leg_overload_mode && use_gun_boost_prefix ? "b_" : "")
 			var/image/new_overlay =image(ability_module_icon, icon_state = prefix+module.icon_state)
 			. += new_overlay
 
-	if(use_builtin_boost_overlay)
-		var/state = leg_overload_mode ? "booster_active" : "booster"
-		. += image(ability_module_icon, icon_state = state, layer=layer+0.002)
-		. += emissive_appearance(ability_module_icon, state, src)
+	var/state = leg_overload_mode ? "booster_active" : "booster"
+	. += image(ability_module_icon, icon_state = state, layer=layer+0.002)
+	. += emissive_appearance(ability_module_icon, state, src)
 
 /obj/vehicle/sealed/mecha/combat/greyscale/setDir(newdir)
 	. = ..()
@@ -481,7 +489,6 @@
 /obj/vehicle/sealed/mecha/combat/greyscale/recon/noskill // hvh type
 	mecha_flags = ADDING_ACCESS_POSSIBLE|CANSTRAFE|IS_ENCLOSED|HAS_HEADLIGHTS
 	pivot_step = FALSE
-	max_integrity = 300
 	soft_armor = list(MELEE = 25, BULLET = 70, LASER = 60, ENERGY = 60, BOMB = 50, BIO = 75, FIRE = 100, ACID = 30)
 	facing_modifiers = list(VEHICLE_FRONT_ARMOUR = 0.5, VEHICLE_SIDE_ARMOUR = 1, VEHICLE_BACK_ARMOUR = 1.5)
 
@@ -498,7 +505,6 @@
 /obj/vehicle/sealed/mecha/combat/greyscale/assault/noskill // hvh type
 	mecha_flags = ADDING_ACCESS_POSSIBLE|CANSTRAFE|IS_ENCLOSED|HAS_HEADLIGHTS
 	pivot_step = FALSE
-	max_integrity = 450
 	soft_armor = list(MELEE = 35, BULLET = 70, LASER = 60, ENERGY = 60, BOMB = 60, BIO = 75, FIRE = 100, ACID = 30)
 	facing_modifiers = list(VEHICLE_FRONT_ARMOUR = 0.5, VEHICLE_SIDE_ARMOUR = 1, VEHICLE_BACK_ARMOUR = 1.5)
 
@@ -515,12 +521,11 @@
 /obj/vehicle/sealed/mecha/combat/greyscale/vanguard/noskill // hvh type
 	mecha_flags = ADDING_ACCESS_POSSIBLE|CANSTRAFE|IS_ENCLOSED|HAS_HEADLIGHTS
 	pivot_step = FALSE
-	max_integrity = 700
 	soft_armor = list(MELEE = 45, BULLET = 70, LASER = 60, ENERGY = 60, BOMB = 70, BIO = 75, FIRE = 100, ACID = 30)
 	facing_modifiers = list(VEHICLE_FRONT_ARMOUR = 0.5, VEHICLE_SIDE_ARMOUR = 1, VEHICLE_BACK_ARMOUR = 1.5)
 
 /obj/item/repairpack
 	name = "mech repairpack"
 	desc = "A mecha repair pack, consisting of various auto-extinguisher systems, materials and repair nano-scarabs."
-	icon = 'icons/obj/items/assemblies.dmi'
-	icon_state = "posibrain-occupied" // todo kuro needs to make/find an icon for this
+	icon = 'icons/mecha/mecha_equipment.dmi'
+	icon_state = "armor_melee"
