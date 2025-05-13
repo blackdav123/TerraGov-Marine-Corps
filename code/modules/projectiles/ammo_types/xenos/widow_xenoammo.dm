@@ -31,6 +31,9 @@
 	if(!ishuman(target_mob))
 		return
 	playsound(get_turf(target_mob), sound(get_sfx("snap")), 30, falloff = 5)
+	var/datum/action/ability/xeno_action/create_spiderling/create_spiderling_action = proj.firer.actions_by_path[/datum/action/ability/xeno_action/create_spiderling]
+	if(create_spiderling_action)
+		create_spiderling_action.add_spiderling()
 	var/mob/living/carbon/human/human_victim = target_mob
 	if(proj.def_zone == BODY_ZONE_HEAD)
 		human_victim.blind_eyes(hit_eye_blind)
@@ -54,6 +57,8 @@
 	shell_speed = 1.5
 	accurate_range = 8
 	max_range = 8
+	/// Xeno that created the leash ball
+	var/mob/living/carbon/xenomorph/creator
 
 /datum/ammo/xeno/leash_ball/on_hit_turf(turf/target_turf, obj/projectile/proj)
 	drop_leashball(target_turf.density ? proj.loc : target_turf)
@@ -72,5 +77,5 @@
 	drop_leashball(target_turf.density ? proj.loc : target_turf)
 
 /// This spawns a leash ball and checks if the turf is dense before doing so
-/datum/ammo/xeno/leash_ball/proc/drop_leashball(turf/target_turf)
-	new /obj/structure/xeno/aoe_leash(get_turf(target_turf), hivenumber)
+/datum/ammo/xeno/leash_ball/proc/drop_leashball(turf/target_turf, obj/projectile/proj)
+	new /obj/structure/xeno/aoe_leash(get_turf(target_turf), hivenumber, creator)

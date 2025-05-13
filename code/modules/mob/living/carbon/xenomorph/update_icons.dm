@@ -24,8 +24,6 @@
 	if(state_change)
 		if(stat == DEAD)
 			icon_state = "[xeno_caste.caste_name][(xeno_flags & XENO_ROUNY) ? " rouny" : ""] Dead"
-		else if(HAS_TRAIT(src, TRAIT_BURROWED))
-			icon_state = "[xeno_caste.caste_name][(xeno_flags & XENO_ROUNY) ? " rouny" : ""] Burrowed"
 		else if(lying_angle)
 			if((resting || IsSleeping()) && (!IsParalyzed() && !IsUnconscious() && health > 0))
 				icon_state = "[xeno_caste.caste_name][(xeno_flags & XENO_ROUNY) ? " rouny" : ""] Sleeping"
@@ -201,7 +199,7 @@
 
 /atom/movable/vis_obj/xeno_wounds/fire_overlay/update_icon()
 	. = ..()
-	if(!owner.on_fire || HAS_TRAIT(owner, TRAIT_BURROWED))
+	if(!owner.on_fire)
 		update_flame_light(0)
 	else
 		update_flame_light(owner.fire_luminosity)
@@ -211,9 +209,6 @@
 	if(!owner.on_fire)
 		icon_state = ""
 		return
-	if(HAS_TRAIT(owner, TRAIT_BURROWED))
-		icon_state = ""
-		return
 	if((!owner.lying_angle && !owner.resting && !owner.IsSleeping()))
 		icon_state = "alien_fire"
 	else
@@ -221,7 +216,7 @@
 
 /atom/movable/vis_obj/xeno_wounds/fire_overlay/update_overlays()
 	. = ..()
-	if(!owner.on_fire || HAS_TRAIT(owner, TRAIT_BURROWED))
+	if(!owner.on_fire)
 		return
 	. += emissive_appearance(icon, icon_state, src)
 

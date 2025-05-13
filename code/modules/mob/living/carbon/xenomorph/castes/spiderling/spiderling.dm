@@ -30,6 +30,8 @@
 	if(spidermother)
 		AddComponent(/datum/component/ai_controller, /datum/ai_behavior/spiderling, spidermother)
 		transfer_to_hive(spidermother.get_xeno_hivenumber())
+		playsound(src, 'sound/voice/alien/roar_larva2.ogg', 25, 0, 1)
+		addtimer(CALLBACK(src, PROC_REF(death)), SPIDERLING_DEATH_TIMER)
 	else
 		AddComponent(/datum/component/ai_controller, /datum/ai_behavior/xeno)
 
@@ -72,13 +74,9 @@
 	RegisterSignal(escorted_atom, COMSIG_SPIDERLING_GUARD, PROC_REF(attempt_guard))
 	RegisterSignal(escorted_atom, COMSIG_SPIDERLING_UNGUARD, PROC_REF(attempt_unguard))
 	RegisterSignal(escorted_atom, COMSIG_MOB_DEATH, PROC_REF(spiderling_rage))
-	RegisterSignal(escorted_atom, COMSIG_LIVING_DO_RESIST, PROC_REF(parent_resist))
 	RegisterSignal(escorted_atom, COMSIG_XENOMORPH_RESIN_JELLY_APPLIED, PROC_REF(apply_spiderling_jelly))
-	RegisterSignal(escorted_atom, COMSIG_XENOMORPH_REST, PROC_REF(start_resting))
-	RegisterSignal(escorted_atom, COMSIG_XENOMORPH_UNREST, PROC_REF(stop_resting))
 	RegisterSignal(escorted_atom, COMSIG_ELEMENT_JUMP_STARTED, PROC_REF(do_jump))
 	RegisterSignal(escorted_atom, COMSIG_SPIDERLING_MARK, PROC_REF(decide_mark))
-	RegisterSignal(escorted_atom, COMSIG_SPIDERLING_RETURN, PROC_REF(revert_to_default_escort))
 
 /// Decides what to do when widow uses spiderling mark ability
 /datum/ai_behavior/spiderling/proc/decide_mark(source, atom/A)
@@ -90,7 +88,7 @@
 		return
 	escorted_atom = null
 	if(ishuman(A))
-		INVOKE_ASYNC(src, PROC_REF(triggered_spiderling_rage), source, A)
+		INVOKE_ASYNC(src, PROC_REF(spiderling_rage), source, A)
 		return
 	if(isobj(A))
 		var/obj/obj_target = A
@@ -209,14 +207,11 @@
 			continue
 		possible_victims += victim
 	if(!length(possible_victims))
-		kill_parent()
+		escorted_atom = default_escorted_atom.resolve()
 		return
 	x.spiderling_state = SPIDERLING_ENRAGED
 	x.update_icons()
-	// Makes the spiderlings roar at slightly different times so they don't stack their roars
-	addtimer(CALLBACK(x, TYPE_PROC_REF(/mob, emote), "roar"), rand(1, 4))
 	change_action(MOVING_TO_ATOM, pick(possible_victims))
-	addtimer(CALLBACK(src, PROC_REF(kill_parent)), 10 SECONDS)
 
 /// Makes the spiderling roar and then kill themselves after some time
 /datum/ai_behavior/spiderling/proc/triggered_spiderling_rage(mob/M, mob/victim)
@@ -233,25 +228,6 @@
 /datum/ai_behavior/spiderling/proc/kill_parent()
 	var/mob/living/carbon/xenomorph/spiderling/spiderling_parent = mob_parent
 	spiderling_parent?.death(gibbing = FALSE)
-
-/// resist when widow does
-/datum/ai_behavior/spiderling/proc/parent_resist()
-	SIGNAL_HANDLER
-	var/mob/living/carbon/xenomorph/spiderling/spiderling_parent = mob_parent
-	spiderling_parent?.do_resist()
-
-/// rest when widow does
-/datum/ai_behavior/spiderling/proc/start_resting(mob/source)
-	SIGNAL_HANDLER
-	var/mob/living/living = mob_parent
-	living?.set_resting(TRUE)
-
-/// stop resting when widow does, plus unbuckle all mobs so the widow won't get stuck
-/datum/ai_behavior/spiderling/proc/stop_resting(mob/source)
-	SIGNAL_HANDLER
-	var/mob/living/living = mob_parent
-	living?.set_resting(FALSE)
-	source?.unbuckle_all_mobs()
 
 /// Signal handler to make the spiderling jump when widow does
 /datum/ai_behavior/spiderling/proc/do_jump()

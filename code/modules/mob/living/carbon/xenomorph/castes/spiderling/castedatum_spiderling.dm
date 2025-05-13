@@ -33,6 +33,4 @@
 	// *** Defense *** //
 	soft_armor = list(MELEE = 15, BULLET = 0, LASER = 5, ENERGY = 0, BOMB = 0, BIO = 0, FIRE = 0, ACID = 0)
 
-	actions = list(
-		/datum/action/ability/xeno_action/burrow,
-	)
+	actions = list()

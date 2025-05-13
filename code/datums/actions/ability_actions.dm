@@ -93,11 +93,6 @@
 			carbon_owner.balloon_alert(carbon_owner, "Cannot, busy")
 		return FALSE
 
-	if(!(to_check_flags & ABILITY_USE_BURROWED) && HAS_TRAIT(carbon_owner, TRAIT_BURROWED))
-		if(!silent)
-			carbon_owner.balloon_alert(carbon_owner, "Cannot while burrowed")
-		return FALSE
-
 	if(!(to_check_flags & ABILITY_USE_SOLIDOBJECT))
 		var/turf/current_turf = get_turf(carbon_owner)
 		if(!current_turf) //we are in nullspace when first spawning in
