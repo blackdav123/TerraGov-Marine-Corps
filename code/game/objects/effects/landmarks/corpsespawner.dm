@@ -386,7 +386,6 @@
 	name = "Unknown PMC"
 	corpseuniform = /obj/item/clothing/under/marine/veteran/pmc
 	corpseshoes = /obj/item/clothing/shoes/jackboots
-	corpsesuit = /obj/item/clothing/suit/armor/vest/security
 	corpseback = /obj/item/storage/backpack/satchel
 	corpsebelt = /obj/item/storage/holster/belt/pistol/m4a3/vp70
 	corpsegloves = /obj/item/clothing/gloves/marine/veteran/pmc
@@ -615,8 +614,8 @@
 
 /obj/effect/landmark/corpsespawner/vsd_command
 	name = "Vyacheslav officer"
-	corpseuniform = /obj/item/clothing/under/vsd/webbing
-	corpsesuit = /obj/item/clothing/suit/storage/marine/vsd/desert
+	corpseuniform = /obj/item/clothing/under/vsd/officer/webbing
+	corpsesuit = /obj/item/clothing/suit/storage/marine/vsd/alt
 	corpsemask = /obj/item/clothing/mask/gas/vsd
 	corpsehelmet = /obj/item/clothing/head/vsd/beret
 	corpsegloves = /obj/item/clothing/gloves/marine/veteran/pmc

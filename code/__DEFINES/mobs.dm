@@ -23,8 +23,8 @@
 #define COLLAR_LAYER 12
 #define SUIT_STORE_LAYER 11
 #define BACK_LAYER 10
-#define KAMA_LAYER 9
-#define CAPE_LAYER 8
+#define CAPE_LAYER 9
+#define KAMA_LAYER 8
 #define HANDCUFF_LAYER 7
 #define L_HAND_LAYER 6
 #define R_HAND_LAYER 5
@@ -601,6 +601,7 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 #define CASTE_REQUIRES_FREE_TILE (1<<18) // Whether we require a free tile to evolve.
 #define CASTE_LEADER_TYPE (1<<19) // Whether this is a leader type caste (e.g. Queen/Shrike/King/Dragon). Restricts who can play these castes based on: playtime & if banned from Queen.
 #define CASTE_EXCLUDE_STRAINS (1<<20) // Excludes this caste/basetype from strain selection.
+#define CASTE_MUTATIONS_ALLOWED (1<<21) // Whether we are allowed to access, view, and potentially purchase mutations for our caste/strain.
 
 // Xenomorph can_flags:
 #define CASTE_CAN_HOLD_FACEHUGGERS (1<<0) // Are we allowed to carry facehuggers in our hands?
@@ -610,6 +611,9 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 #define CASTE_CAN_CORRUPT_GENERATOR (1<<4) // Can we corrupt a generator?
 #define CASTE_CAN_RIDE_CRUSHER (1<<5) // Can we ride a crusher (or behemoth)?
 #define CASTE_CAN_BE_RULER (1<<6) // Caste can become a ruler if no queen / shrike / king exists in the hive.
+
+///How often we can swap strains
+#define XENO_STRAIN_SWAP_COOLDOWN 5 MINUTES
 
 //Charge-Crush
 #define CHARGE_OFF 0
@@ -707,7 +711,7 @@ GLOBAL_LIST_INIT(layers_to_offset, list(
 
 // Pyrogen defines
 /// Damage per melting fire stack
-#define PYROGEN_DAMAGE_PER_STACK 2.5
+#define PYROGEN_DAMAGE_PER_STACK 2
 /// Amount of ticks of fire removed when helped by another human to extinguish
 #define PYROGEN_ASSIST_REMOVAL_STRENGTH 2
 /// How fast the pyrogen moves when charging using fire charge
@@ -1012,3 +1016,9 @@ GLOBAL_LIST_INIT(ai_damtype_to_heal_list, list(
 ))
 
 #define POINT_TIME 4 SECONDS
+
+// Dragon
+
+#define DRAGON_BREATH_MELTING "Melting"
+#define DRAGON_BREATH_SHATTERING "Shattering"
+#define DRAGON_BREATH_MELTING_ACID "Melting Acid"

@@ -1573,6 +1573,10 @@
 /obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
 /turf/open/floor/mainship/sterile/dark,
 /area/magmoor/medical/chemistry)
+"bbH" = (
+/obj/effect/decal/remains/human,
+/turf/open/floor/plating/ground/mars/random/cave,
+/area/magmoor/cave/south)
 "bbL" = (
 /obj/structure/rack,
 /obj/item/flashlight,
@@ -2710,12 +2714,6 @@
 	dir = 8
 	},
 /area/magmoor/command/conference)
-"bOr" = (
-/obj/machinery/power/tbg_turbine/heat{
-	dir = 4
-	},
-/turf/open/floor/plating/plating_catwalk,
-/area/magmoor/engi/thermal)
 "bOC" = (
 /turf/open/floor/plating/ground/mars/dirttosand{
 	dir = 6
@@ -3292,13 +3290,6 @@
 /obj/effect/landmark/weed_node,
 /turf/open/floor/mainship/mono,
 /area/magmoor/engi)
-"ckg" = (
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden{
-	dir = 4
-	},
-/obj/machinery/floor_warn_light/toggleable/generator,
-/turf/open/floor/plating/plating_catwalk,
-/area/magmoor/engi/power)
 "cki" = (
 /obj/structure/largecrate/random/case/small,
 /turf/open/floor/mainship/floor,
@@ -7043,6 +7034,9 @@
 /obj/item/shard,
 /turf/open/floor/wood,
 /area/magmoor/civilian/bar)
+"eLd" = (
+/turf/open/floor/plating/ground/mars/random/cave,
+/area/magmoor/cave/south)
 "eLe" = (
 /obj/effect/turf_decal/woodsiding{
 	dir = 4
@@ -8883,10 +8877,6 @@
 	dir = 6
 	},
 /area/magmoor/compound)
-"gao" = (
-/obj/machinery/floor_warn_light/toggleable/generator,
-/turf/closed/wall,
-/area/magmoor/engi/thermal)
 "gaE" = (
 /obj/structure/table/wood,
 /turf/open/floor/wood,
@@ -11033,13 +11023,6 @@
 /turf/open/floor/mainship/orange{
 	dir = 10
 	},
-/area/magmoor/engi/power)
-"hKa" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1{
-	dir = 4
-	},
-/obj/machinery/floor_warn_light/toggleable/generator,
-/turf/open/floor/plating/plating_catwalk,
 /area/magmoor/engi/power)
 "hKg" = (
 /obj/effect/turf_decal/tile/blue{
@@ -13682,10 +13665,6 @@
 	},
 /turf/open/floor/tile/white,
 /area/magmoor/civilian/pool)
-"jCa" = (
-/obj/machinery/floor_warn_light/toggleable/generator,
-/turf/closed/wall/r_wall,
-/area/magmoor/engi/thermal)
 "jCp" = (
 /turf/open/floor/plating/ground/concrete/lines{
 	dir = 1
@@ -18086,6 +18065,10 @@
 /obj/structure/flora/ausbushes/sparsegrass,
 /turf/open/floor/grass,
 /area/magmoor/civilian/clean)
+"mHQ" = (
+/obj/effect/ai_node,
+/turf/open/floor/plating/ground/mars/random/cave,
+/area/magmoor/cave/south)
 "mIg" = (
 /obj/structure/closet/walllocker/hydrant/extinguisher{
 	dir = 8
@@ -18169,6 +18152,11 @@
 /obj/machinery/conveyor,
 /turf/open/floor/plating,
 /area/magmoor/cargo/processing/south)
+"mNg" = (
+/obj/structure/cable,
+/obj/machinery/power/geothermal,
+/turf/open/floor/plating/plating_catwalk,
+/area/magmoor/engi/thermal)
 "mNI" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -20781,15 +20769,6 @@
 /obj/structure/rock/basalt/pile/alt2,
 /turf/open/floor/plating/ground/mars/random/cave,
 /area/magmoor/cave/north)
-"oIN" = (
-/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
-/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
-/obj/structure/cable,
-/obj/machinery/power/geothermal/tbg{
-	dir = 4
-	},
-/turf/open/floor/plating/plating_catwalk,
-/area/magmoor/engi/thermal)
 "oJc" = (
 /obj/machinery/atmospherics/pipe/manifold4w/supply/hidden/layer1,
 /obj/machinery/atmospherics/pipe/manifold4w/scrubbers/hidden,
@@ -23907,6 +23886,11 @@
 	},
 /turf/open/floor/mainship/mono,
 /area/magmoor/landing/two)
+"qSn" = (
+/obj/effect/landmark/start/job/xenomorph,
+/obj/effect/landmark/xeno_spawner_spawn,
+/turf/open/floor/cult,
+/area/magmoor/cave/north)
 "qSZ" = (
 /obj/machinery/miner/damaged,
 /turf/open/floor/plating/ground/mars/random/dirt,
@@ -24727,6 +24711,10 @@
 	},
 /turf/open/floor/mainship/mono,
 /area/magmoor/security/arrivals/east)
+"rxc" = (
+/obj/effect/decal/cleanable/blood/gibs/robot/up,
+/turf/open/floor/plating/ground/mars/random/cave,
+/area/magmoor/cave/south)
 "rxl" = (
 /turf/closed/mineral/smooth/lavawall,
 /area/magmoor/cave/rock)
@@ -25958,6 +25946,12 @@
 	dir = 8
 	},
 /area/magmoor/cargo/processing/south)
+"sqi" = (
+/obj/machinery/atmospherics/pipe/simple/supply/hidden/layer1,
+/obj/machinery/atmospherics/pipe/simple/scrubbers/hidden,
+/obj/structure/cable,
+/turf/open/floor/plating/plating_catwalk,
+/area/magmoor/engi/thermal)
 "sql" = (
 /turf/open/floor/plating/ground/concrete/lines{
 	dir = 1
@@ -26771,10 +26765,6 @@
 "sVr" = (
 /turf/open/liquid/lava/autosmoothing,
 /area/magmoor/compound/northeast)
-"sVs" = (
-/obj/machinery/floor_warn_light/toggleable/generator,
-/turf/open/floor/plating/plating_catwalk,
-/area/magmoor/engi/thermal)
 "sWk" = (
 /obj/machinery/atmospherics/components/unary/vent_scrubber{
 	dir = 4
@@ -28051,6 +28041,10 @@
 	dir = 6
 	},
 /area/magmoor/civilian/dorms)
+"tQh" = (
+/obj/effect/ai_node,
+/turf/open/floor/plating/ground/mars/random/dirt,
+/area/magmoor/compound/south)
 "tQo" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -32334,6 +32328,10 @@
 /obj/effect/ai_node,
 /turf/open/floor/plating/ground/mars/random/cave,
 /area/magmoor/cave/northwest)
+"wRw" = (
+/obj/effect/decal/remains/xeno,
+/turf/open/floor/plating/ground/mars/random/cave,
+/area/magmoor/cave/south)
 "wRz" = (
 /obj/effect/turf_decal/warning_stripes/thin{
 	dir = 4
@@ -34458,6 +34456,9 @@
 "yge" = (
 /turf/open/lavaland/basalt/dirt/autosmoothing,
 /area/magmoor/compound/west)
+"ygM" = (
+/turf/closed/mineral/smooth/lavawall,
+/area/magmoor/cave/south)
 "ygU" = (
 /obj/effect/landmark/weed_node,
 /turf/open/floor/plating/ground/mars/random/sand,
@@ -34593,12 +34594,6 @@
 "ylo" = (
 /turf/open/liquid/lava/autosmoothing,
 /area/magmoor/compound/south)
-"ylq" = (
-/obj/machinery/power/tbg_turbine/cold{
-	dir = 8
-	},
-/turf/open/floor/plating/plating_catwalk,
-/area/magmoor/engi/thermal)
 "ylX" = (
 /obj/effect/spawner/random/misc/plant,
 /obj/machinery/light{
@@ -53556,9 +53551,9 @@ mNI
 mNI
 hUg
 wwg
-jCa
+wwg
 pJV
-jCa
+wwg
 pJV
 wwg
 gKh
@@ -54484,7 +54479,7 @@ jYO
 jxX
 jxX
 jxX
-jCa
+wwg
 wwg
 xdD
 qAe
@@ -54725,7 +54720,7 @@ yco
 ruR
 pWV
 sQM
-gao
+xdD
 nQM
 wwg
 hUg
@@ -54946,16 +54941,16 @@ xmI
 fcs
 ajM
 fwF
-ckg
+jYO
 cVC
 qzH
 ivX
 wwg
 vAF
 oiI
-sVs
-guR
-sVs
+mNg
+mNg
+mNg
 pyN
 poK
 tvB
@@ -55183,11 +55178,11 @@ jYO
 aWS
 ldU
 fwA
-jCa
+wwg
 yco
 oiI
 guR
-ylq
+guR
 guR
 fkU
 sRP
@@ -55195,7 +55190,7 @@ oZS
 oZS
 dLW
 tQo
-jCa
+wwg
 amF
 mJw
 mJw
@@ -55420,7 +55415,7 @@ bNR
 ony
 dsb
 odX
-oIN
+sqi
 ccs
 ony
 fCk
@@ -55593,7 +55588,7 @@ aPs
 aPs
 aPs
 aPs
-aPs
+qSn
 aPs
 aPs
 lRD
@@ -55649,11 +55644,11 @@ uRD
 lNt
 hmK
 lMq
-jCa
+wwg
 yco
 oiI
 guR
-bOr
+guR
 guR
 pyN
 wZT
@@ -55661,7 +55656,7 @@ sue
 pCV
 kTN
 ojh
-jCa
+wwg
 lRV
 lRV
 lRV
@@ -55878,16 +55873,16 @@ xmI
 jDH
 eVT
 oPF
-hKa
+uRD
 cVC
 qzH
 ivX
 wwg
 vAF
 oiI
-sVs
-guR
-sVs
+mNg
+mNg
+mNg
 pyN
 yhm
 mCt
@@ -56123,7 +56118,7 @@ yco
 knJ
 neU
 qHm
-gao
+xdD
 iDQ
 wwg
 hUg
@@ -56348,7 +56343,7 @@ uRD
 nWI
 nWI
 nWI
-jCa
+wwg
 wwg
 xdD
 qAe
@@ -57284,9 +57279,9 @@ fbE
 mNI
 hUg
 wwg
-jCa
+wwg
 pJV
-jCa
+wwg
 pJV
 wwg
 gKh
@@ -59524,11 +59519,11 @@ ylo
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 xWF
 xWF
@@ -59758,12 +59753,12 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
 xWF
 xWF
 xWF
@@ -59993,11 +59988,11 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 xWF
 xWF
@@ -60227,10 +60222,10 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 xWF
@@ -60459,11 +60454,11 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+mHQ
+eLd
 rxl
 rxl
 xWF
@@ -60692,11 +60687,11 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -60927,9 +60922,9 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -61160,10 +61155,10 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -61393,10 +61388,10 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+wRw
+eLd
 rxl
 rxl
 rxl
@@ -61624,13 +61619,13 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -61856,15 +61851,15 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -62088,16 +62083,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+mHQ
+eLd
+eLd
+eLd
+eLd
+mHQ
+ygM
+ygM
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -62320,17 +62315,17 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+wRw
+eLd
+eLd
+ygM
+eLd
+eLd
+eLd
+ygM
+ygM
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -62554,16 +62549,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+ygM
+ygM
+ygM
+eLd
+eLd
+ygM
+ygM
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -62787,16 +62782,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+ygM
+ygM
+eLd
+eLd
+eLd
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -63020,15 +63015,15 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -63253,14 +63248,14 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+ygM
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -63486,14 +63481,14 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+ygM
+ygM
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -63719,15 +63714,15 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+mHQ
+eLd
+eLd
+eLd
+eLd
+mHQ
+mHQ
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -63932,7 +63927,7 @@ pUx
 ylo
 pUx
 eTo
-eTo
+tQh
 eTo
 eTo
 pUx
@@ -63952,15 +63947,15 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -64184,16 +64179,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -64417,15 +64412,15 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+ygM
+ygM
+ygM
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -64649,16 +64644,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+mHQ
+eLd
+mHQ
+eLd
+ygM
+ygM
+ygM
+eLd
+mHQ
+bbH
 rxl
 rxl
 rxl
@@ -64882,16 +64877,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+ygM
+ygM
+ygM
+ygM
+mHQ
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -65102,6 +65097,8 @@ jRL
 jRL
 jRL
 jRL
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -65112,18 +65109,16 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+ygM
+ygM
+ygM
+ygM
+mHQ
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -65330,11 +65325,14 @@ xUd
 jRL
 jRL
 jRL
+dkb
 jRL
 jRL
 jRL
 jRL
-jRL
+eLd
+mHQ
+eLd
 rxl
 rxl
 rxl
@@ -65343,20 +65341,17 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+ygM
+ygM
+ygM
+ygM
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -65568,27 +65563,27 @@ jRL
 jRL
 jRL
 jRL
+eLd
+eLd
+mHQ
+eLd
+eLd
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+ygM
+ygM
+ygM
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -65801,27 +65796,27 @@ jRL
 jRL
 jRL
 jRL
+eLd
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+mHQ
+eLd
+mHQ
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+mHQ
+eLd
+ygM
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -66036,24 +66031,24 @@ jRL
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+ygM
+ygM
+ygM
+ygM
+ygM
+ygM
+eLd
+mHQ
+eLd
+eLd
+eLd
+eLd
+mHQ
 rxl
 rxl
 rxl
@@ -66271,21 +66266,21 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+ygM
+ygM
+ygM
+eLd
+rxc
+ygM
+ygM
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -66505,17 +66500,17 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+mHQ
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
+mHQ
+eLd
+eLd
 rxl
 rxl
 rxl
@@ -66740,12 +66735,12 @@ rxl
 rxl
 rxl
 rxl
-rxl
-rxl
-rxl
-rxl
-rxl
-rxl
+eLd
+eLd
+eLd
+eLd
+eLd
+eLd
 rxl
 rxl
 rxl
