@@ -2,7 +2,7 @@
 // *********** Resin building
 // ***************************************
 /datum/action/ability/activable/xeno/secrete_resin/widow
-	ability_cost = 100
+	ability_cost = 25
 	buildable_structures = list(
 		/turf/closed/wall/resin/regenerating/thick,
 		/turf/closed/wall/resin/regenerating/special/bulletproof,
@@ -181,7 +181,7 @@
 	var/max_spiderlings = xeno_owner?.xeno_caste.max_spiderlings ? xeno_owner.xeno_caste.max_spiderlings : 5
 	desc = "Give birth to a spiderling after a short charge-up. The spiderlings will follow you until death. You can only deploy [max_spiderlings] spiderlings at one time. On alt-use, if any charges of Cannibalise are stored, create a spiderling at no plasma cost or cooldown."
 
-/datum/action/ability/xeno_action/create_spiderling/can_use_action(silent = FALSE, override_flags)
+/datum/action/ability/xeno_action/create_spiderling/can_use_action(silent, override_flags, selecting)
 	. = ..()
 	if(!.)
 		return FALSE
@@ -308,7 +308,7 @@
 	succeed_activate()
 
 /// Burrow code for xenomorphs
-/datum/action/ability/xeno_action/burrow/proc/xeno_burrow()
+/datum/action/ability/xeno_action/burrow/proc/xeno_burrow(datum/source, damage_amount, mob/living/attacker)
 	SIGNAL_HANDLER
 	if(!HAS_TRAIT(xeno_owner, TRAIT_BURROWED))
 		to_chat(xeno_owner, span_xenowarning("We start burrowing into the ground..."))

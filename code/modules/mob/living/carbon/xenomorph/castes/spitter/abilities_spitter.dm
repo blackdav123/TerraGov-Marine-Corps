@@ -3,11 +3,15 @@
 // ***************************************
 /datum/action/ability/activable/xeno/spray_acid/line
 	name = "Spray Acid"
-	desc = "Spray a line of dangerous acid at your target."
 	ability_cost = 250
 	cooldown_duration = 30 SECONDS
 	/// If the owner makes use of and has this much stored globs, non-opaque gas is created along with the acid. Must be non-zero.
 	var/gaseous_spray_threshold = 0
+	var/acid_spray_distance = 7
+
+/datum/action/ability/activable/xeno/spray_acid/line/New(Target)
+	. = ..()
+	desc = "Spray a line of dangerous acid at your target up to [acid_spray_distance + 1] tiles away." // Check uses > therefore the actual distance is + 1
 
 /datum/action/ability/activable/xeno/spray_acid/line/use_ability(atom/A)
 	var/turf/target = get_turf(A)
@@ -97,7 +101,7 @@
 				smoke.start()
 
 		distance++
-		if(distance > 7 || blocked)
+		if(distance > acid_spray_distance || blocked)
 			break
 
 		prev_turf = T
@@ -489,7 +493,7 @@ GLOBAL_LIST_INIT(globadier_images_list, list(
 	if(current_charges < max_charges) //If we still have less than the total amount of mines, call the timer again to add another mine after the regen time
 		timer = addtimer(CALLBACK(src, PROC_REF(regen_mine)), regen_time, TIMER_UNIQUE|TIMER_STOPPABLE)
 
-/datum/action/ability/xeno_action/acid_mine/can_use_action(silent = FALSE, override_flags)
+/datum/action/ability/xeno_action/acid_mine/can_use_action(silent, override_flags, selecting)
 	. = ..()
 	var/turf/T = get_turf(owner)
 	if(!T || !T.is_weedable() || T.density)

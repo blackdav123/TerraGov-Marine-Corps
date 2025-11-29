@@ -29,9 +29,8 @@
 	// *** Evolution *** //
 	upgrade_threshold = TIER_THREE_THRESHOLD
 	maximum_active_caste = 1
-	evolve_min_xenos = 8
-	death_evolution_delay = 7 MINUTES
-	evolve_population_lock = 40 // Mech
+	evolve_min_xenos = 12
+	death_evolution_delay = 15 MINUTES
 
 	// *** Flags *** //
 	caste_flags = CASTE_IS_INTELLIGENT|CASTE_STAGGER_RESISTANT|CASTE_LEADER_TYPE|CASTE_INSTANT_EVOLUTION|CASTE_HAS_WOUND_MASK|CASTE_MUTATIONS_ALLOWED
@@ -137,7 +136,7 @@
 	plasma_gain = 60
 
 	// *** Health *** //
-	max_health = 800
+	max_health = 650
 
 	// *** Sunder *** //
 	sunder_multiplier = 1.0

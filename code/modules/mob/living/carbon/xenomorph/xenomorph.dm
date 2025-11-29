@@ -313,7 +313,7 @@
 	if(L.buckled)
 		return FALSE //to stop xeno from pulling marines on roller beds.
 	if(ishuman(L))
-		if(L.stat == DEAD) //Can't drag dead human bodies.
+		if(L.stat == DEAD && !(SSticker.mode.round_type_flags & MODE_XENO_GRAB_DEAD_ALLOWED)) // Can't drag dead human bodies.
 			to_chat(usr,span_xenowarning("This looks gross, better not touch it."))
 			return FALSE
 		if(pulling != L)
@@ -354,7 +354,7 @@
 	//updating all the mob's hud images
 	med_hud_set_health()
 	hud_set_plasma()
-	hud_set_pheromone()
+	update_aura_overlay()
 	//and display them
 	add_to_all_mob_huds()
 
@@ -483,11 +483,11 @@ Returns TRUE when loc_weeds_type changes. Returns FALSE when it doesn’t change
 		return
 	if(resting)
 		if(!COOLDOWN_FINISHED(src, xeno_resting_cooldown))
-			balloon_alert(src, "Cannot get up so soon after resting!")
+			balloon_alert(src, "can't get up so soon!")
 			return
 
 	if(!COOLDOWN_FINISHED(src, xeno_unresting_cooldown))
-		balloon_alert(src, "Cannot rest so soon after getting up!")
+		balloon_alert(src, "can't rest so soon!")
 		return
 	return ..()
 
